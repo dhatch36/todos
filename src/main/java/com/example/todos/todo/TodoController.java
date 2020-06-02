@@ -31,14 +31,13 @@ public class TodoController{
     @PutMapping("/{id}")
     public Todo editTodo(@PathVariable long id, @RequestBody Todo todo) {
         Todo existingTodo = new Todo();
-        try{
+        try {
             existingTodo = todoRepository.findById(id).get();
             existingTodo.setTitle(todo.getTitle());
             existingTodo.setDescription(todo.getDescription());
             existingTodo.setComplete(todo.isComplete());
-
-        }
-        catch(NoSuchElementException e){
+            todoRepository.save(existingTodo);
+        } catch(NoSuchElementException e){
             System.out.print(e.getMessage());
             existingTodo = todoRepository.save(todo);
         }
